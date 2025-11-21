@@ -31,6 +31,10 @@ import {
   Select,
   SimpleGrid,
   useColorModeValue,
+  Input,
+  Textarea,
+  Button,
+  Stack,
 } from "@chakra-ui/react";
 // Assets
 import Usa from "assets/img/dashboards/usa.png";
@@ -46,7 +50,20 @@ export default function Marketplace() {
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.500", "white");
   const brandColor = useColorModeValue("brand.500", "white");
-    const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+  const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+  const [mobile, setMobile] = React.useState("");
+  const [message, setMessage] = React.useState("");
+
+  const handleSend = () => {
+    if (!mobile || !message) {
+      alert("Please enter both mobile number and message.");
+      return;
+    }
+    console.log("Sending message", { mobile, message });
+    alert("Message sent");
+    setMobile("");
+    setMessage("");
+  };
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       <SimpleGrid
@@ -97,6 +114,37 @@ export default function Marketplace() {
           value='15'
         />
       </SimpleGrid>
+      <Box mb='24px' display='flex' justifyContent='center'>
+        <Box
+          bg='white'
+          borderRadius='12px'
+          p='20px'
+          boxShadow='sm'
+          w={{ base: "100%", md: "600px" }}>
+          <Stack spacing={3}>
+            <FormLabel mb={0}>Mobile Number</FormLabel>
+            <Input
+              placeholder='Enter Mobile Number'
+              type='tel'
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+            />
+            <FormLabel mb={0}>Message</FormLabel>
+            
+            <Textarea
+              placeholder='Enter Message'
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <Button
+              colorScheme='brand'
+              onClick={handleSend}
+              alignSelf='flex-end'>
+              Send
+            </Button>
+          </Stack>
+        </Box>
+      </Box>
               
     </Box>
   );
