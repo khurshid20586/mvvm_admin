@@ -8,14 +8,20 @@ import React from "react";
 // FUNCTIONS
 
 function SidebarContent(props) {
-  const { routes } = props;
+  const { routes, isCollapsed } = props;
   // SIDEBAR
   return (
-    <Flex direction='column' height='100%' pt='25px' px="16px" borderRadius='30px'>
-      <Brand />
-      <Stack direction='column' mb='auto' mt='8px'>
-        <Box ps='20px' pe={{ md: "16px", "2xl": "1px" }}>
-          <Links routes={routes} />
+    <Flex 
+      direction='column' 
+      height='100%' 
+      pt={isCollapsed ? '15px' : '25px'} 
+      px={isCollapsed ? '8px' : '16px'}
+      borderRadius='30px'
+    >
+      {!isCollapsed && <Brand />}
+      <Stack direction='column' mb='auto' mt={isCollapsed ? '4px' : '8px'}>
+        <Box ps={isCollapsed ? '0px' : '20px'} pe={{ md: isCollapsed ? '0px' : "16px", "2xl": isCollapsed ? '0px' : "1px" }}>
+          <Links routes={routes} isCollapsed={isCollapsed} />
         </Box>
       </Stack>
     </Flex>

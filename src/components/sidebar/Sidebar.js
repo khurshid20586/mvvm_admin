@@ -11,7 +11,10 @@ import {
   useDisclosure,
   DrawerContent,
   DrawerCloseButton,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import Content from "components/sidebar/components/Content";
 import {
   renderThumb,
@@ -25,6 +28,7 @@ import PropTypes from "prop-types";
 
 function Sidebar(props) {
   const { routes } = props;
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
 
   let variantChange = "0.2s linear";
   let shadow = useColorModeValue(
@@ -34,26 +38,57 @@ function Sidebar(props) {
   // Chakra Color Mode
   let sidebarBg = useColorModeValue("white", "navy.800");
   let sidebarMargins = "0px";
+  let toggleBtnBg = useColorModeValue("gray.100", "navy.700");
+  let toggleBtnHover = useColorModeValue("gray.200", "navy.600");
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   // SIDEBAR
   return (
-    <Box display={{ sm: "none", xl: "block" }} w="100%" position='fixed' minH='100%'>
+    <Box display={{ sm: "none", xl: "flex" }} w="100%" position='fixed' minH='100%' alignItems="flex-start">
       <Box
         bg={sidebarBg}
         transition={variantChange}
-        w='300px'
+        w={isCollapsed ? '60px' : '300px'}
         h='100vh'
         m={sidebarMargins}
         minH='100%'
         overflowX='hidden'
-        boxShadow={shadow}>
+        boxShadow={shadow}
+        position="relative"
+      >
         <Scrollbar
           autoHide
           renderTrackVertical={renderTrack}
           renderThumbVertical={renderThumb}
-          renderView={renderView}>
-          <Content routes={routes} />
+          renderView={renderView}
+        >
+          {!isCollapsed && <Content routes={routes} />}
+          {isCollapsed && (
+            <Flex direction="column" align="center" p={2} gap={2}>
+              {/* Collapsed view - show only icons */}
+              <Content routes={routes} isCollapsed={true} />
+            </Flex>
+          )}
         </Scrollbar>
+
+        {/* Toggle Button */}
+        <Tooltip label={isCollapsed ? "Expand" : "Collapse"} placement="right">
+          <IconButton
+            icon={isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            onClick={toggleSidebar}
+            position="absolute"
+            bottom="20px"
+            left="50%"
+            transform="translateX(-50%)"
+            bg={toggleBtnBg}
+            _hover={{ bg: toggleBtnHover }}
+            size="sm"
+            aria-label="Toggle sidebar"
+          />
+        </Tooltip>
       </Box>
     </Box>
   );

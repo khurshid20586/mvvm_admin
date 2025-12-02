@@ -2,11 +2,10 @@ import React from 'react';
 
 import { Icon } from '@chakra-ui/react';
 import {
-  MdBarChart,
   MdPerson,
   MdHome,
-  MdLock,
   MdMessage,
+  MdFilterListAlt
 } from 'react-icons/md';
 
 // Admin Imports
@@ -14,7 +13,7 @@ import MainDashboard from 'views/admin/default';
 import Notifications from 'views/admin/notifications';
 import Profile from 'views/admin/profile';
 import DataTables from 'views/admin/dataTables';
-import RTL from 'views/admin/rtl';
+import ResultComponent from 'views/admin/results';
 
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
@@ -48,6 +47,13 @@ const routes = [
     path: '/profile',
     icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
     component: <Profile />,
+  },
+  {
+    name: 'Results',
+    layout: '/admin',
+    path: '/results',
+    icon: <Icon as={MdFilterListAlt} width="20px" height="20px" color="inherit" />,
+    component: <ResultComponent />,
   },
   {
     name: 'Auth',
